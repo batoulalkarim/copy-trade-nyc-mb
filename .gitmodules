@@ -7,6 +7,3 @@
 [submodule "contracts/lib/periphery-next"]
 	path = contracts/lib/periphery-next
 	url = https://github.com/Uniswap/periphery-next
-[submodule "lib/v4-core"]
-	path = lib/v4-core
-	url = https://github.com/Uniswap/v4-core
