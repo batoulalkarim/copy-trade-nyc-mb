@@ -8,7 +8,7 @@ import {PoolId, PoolIdLibrary} from "v4-core/types/PoolId.sol";
 contract CopyTrade is BaseHook {
     using PoolIdLibrary for PoolId;
 
-    uint256 public beforeSwapCount;
+    // uint256 public beforeSwapCount;
 
     constructor(IPoolManager _poolManager) BaseHook(_poolManager) {}
 
@@ -33,7 +33,7 @@ contract CopyTrade is BaseHook {
         BalanceDelta,
         bytes calldata
     ) external override returns (bytes4) {
-        beforeSwapCount++;
+        // beforeSwapCount++;
         return BaseHook.beforeSwap.selector;
     }
 }
