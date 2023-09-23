@@ -18,6 +18,10 @@ export function Custom500() {
 
 const Container = styled.div`
 	height: 100vh;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	width: 100%;
 `
 
 const Text = styled.div`

@@ -18,6 +18,10 @@ export function Custom404() {
 
 const Container = styled.div`
 	height: 100vh;
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
 `
 
 const Text = styled.div`
