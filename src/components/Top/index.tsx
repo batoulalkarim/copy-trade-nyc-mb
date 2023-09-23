@@ -1,9 +1,9 @@
 import { styled } from 'styled-components'
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon'
 import { shortenEthAddress } from '@/utils/shortenEthAddress'
-import { TriangleDown } from '@styled-icons/octicons'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import { Search as SearchIcon } from 'styled-icons/ionicons-outline'
 
 export default function Top() {
 	const [isConnected, setIsConnected] = useState(false)
@@ -11,30 +11,29 @@ export default function Top() {
 
 	return (
 		<Container>
-			<div>COPYTRADE</div>
+			<Logo>COPYTRADE</Logo>
 			{isConnected ||
 				(router.pathname == '/dashboard' && (
-					<WalletContainer>
-						<AddressContainer>
-							<Jazzicon
-								diameter={16}
-								seed={jsNumberForAddress(
-									'0x1092361f4eafdc6e4555ee761e87ef9c67b9e42f'
-								)}
-							/>
-							<Address>
-								{shortenEthAddress(
-									'0x1092361f4eafdc6e4555ee761e87ef9c67b9e42f'
-								)}
-							</Address>
-						</AddressContainer>
-						<BalanceContainer>
-							<UsdValue>$17.37 USD</UsdValue>
-							<Stats>
-								<TriangleIcon /> $0.14 (0.81%)
-							</Stats>
-						</BalanceContainer>
-					</WalletContainer>
+					<>
+						<SearchContainer>
+							<StyledSearchIcon />
+						</SearchContainer>
+						<WalletContainer>
+							<AddressContainer>
+								<Jazzicon
+									diameter={14}
+									seed={jsNumberForAddress(
+										'0xFC4E92024cCa374f89239e14c886ae0d0Ee41c05'
+									)}
+								/>
+								<Address>
+									{shortenEthAddress(
+										'0xFC4E92024cCa374f89239e14c886ae0d0Ee41c05'
+									)}
+								</Address>
+							</AddressContainer>
+						</WalletContainer>
+					</>
 				))}
 		</Container>
 	)
@@ -44,6 +43,7 @@ const Container = styled.div`
 	display: flex;
 	justify-content: space-between;
 	padding: 0px 0px 24px 0px;
+	align-items: center;
 	height: 48px;
 	width: 100%;
 `
@@ -53,6 +53,10 @@ const WalletContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	text-align: right;
+
+	&:hover {
+		opacity: 0.8;
+	}
 `
 const AddressContainer = styled.div`
 	display: flex;
@@ -60,14 +64,30 @@ const AddressContainer = styled.div`
 	gap: 8px;
 `
 const Address = styled.div`
-	font-weight: bold;
+	font-size: 14px;
 `
-const BalanceContainer = styled.div`
-	font-size: 12px;
+
+const SearchContainer = styled.div`
+	border: 1px solid #e5e5e5;
+	cursor: pointer;
+	display: flex;
+	padding: 0px 8px;
+	flex-direction: row;
+	height: 32px;
+	background-color: #f5f5f5;
+	border-radius: 24px;
+	width: 400px;
+
+	&:hover {
+		opacity: 0.8;
+	}
 `
-const UsdValue = styled.div``
-const Stats = styled.div``
-const TriangleIcon = styled(TriangleDown)`
-	width: 10px;
-	color: #ff0000;
+
+const StyledSearchIcon = styled(SearchIcon)`
+	color: #6a6a6a;
+	width: 16px;
+`
+
+const Logo = styled.div`
+	font-size: 14px;
 `

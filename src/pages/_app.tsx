@@ -6,9 +6,6 @@ import type { AppProps } from 'next/app'
 import { styled } from 'styled-components'
 import Top from '@/components/Top'
 import { useRouter } from 'next/router'
-import { TradeTokenModal } from '@/components/TradeTokenModal'
-import { useModal } from '@/hooks/useModal'
-import { useRef } from 'react'
 
 export default function App({ Component, pageProps }: AppProps) {
 	const router = useRouter()
