@@ -5,6 +5,7 @@ forge-gas-snapshot/=lib/periphery-next/lib/forge-gas-snapshot/src/
 forge-std/=lib/forge-std/src/
 openzeppelin-contracts/=lib/periphery-next/lib/openzeppelin-contracts/
 solmate/=lib/periphery-next/lib/v4-core/lib/solmate/src/
+solady/=lib/solady/src/
 periphery-next/=lib/periphery-next/contracts/
 lib/forge-std:ds-test/=lib/forge-std/lib/ds-test/src/
 lib/periphery-next:@openzeppelin/contracts/=lib/periphery-next/lib/openzeppelin-contracts/contracts/

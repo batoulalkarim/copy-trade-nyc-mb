@@ -42,10 +42,15 @@ contract FairTradeTest is SimpleHookTest, Deployers, GasSnapshot {
             flags,
             0,
             type(FairTrade).creationCode,
-            abi.encode(address(manager))
+            abi.encode(address(manager), "Test Token", "TEST", 18)
         );
 
-        hook = new FairTrade{salt: salt}(IPoolManager(address(manager)));
+        hook = new FairTrade{salt: salt}(
+            IPoolManager(address(manager)),
+            "Test Token",
+            "TEST",
+            18
+        );
         require(
             address(hook) == hookAddress,
             "FairTradeTest: Hook address mismatch"
@@ -53,7 +58,10 @@ contract FairTradeTest is SimpleHookTest, Deployers, GasSnapshot {
 
         FairTradeImplementation impl = new FairTradeImplementation(
             manager,
-            hook
+            hook,
+            "Test Token",
+            "TEST",
+            18
         );
         (, bytes32[] memory writes) = vm.accesses(address(impl));
         vm.etch(address(hook), address(impl).code);
@@ -79,4 +87,24 @@ contract FairTradeTest is SimpleHookTest, Deployers, GasSnapshot {
     function testFailDepositWrongAmount() public {
         hook.depositEth{value: 0.2 ether}();
     }
+
+    function testFailDepositNoEth() public {
+        hook.depositEth{value: 0.0 ether}();
+    }
+
+    function testQuit() public {
+        hook.depositEth{value: 0.1 ether}();
+        hook.quit();
+        assertFalse(hook.isFunder(address(this)), "Still a funder");
+    }
+
+    function testFailQuitNotFunder() public {
+        hook.quit();
+    }
+
+    function testLaunchToken() public {
+        hook.launchToken();
+    }
+
+    receive() external payable {}
 }

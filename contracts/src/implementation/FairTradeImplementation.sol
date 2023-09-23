@@ -10,8 +10,11 @@ import {Hooks} from "@uniswap/v4-core/contracts/libraries/Hooks.sol";
 contract FairTradeImplementation is FairTrade {
     constructor(
         IPoolManager poolManager,
-        FairTrade addressToEtch
-    ) FairTrade(poolManager) {
+        FairTrade addressToEtch,
+        string memory name,
+        string memory symbol,
+        uint8 decimals
+    ) FairTrade(poolManager, name, symbol, decimals) {
         Hooks.validateHookAddress(addressToEtch, getHooksCalls());
     }
 

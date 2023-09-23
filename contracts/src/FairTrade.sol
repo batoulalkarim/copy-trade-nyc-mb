@@ -9,18 +9,34 @@ import {PoolKey} from "@uniswap/v4-core/contracts/types/PoolKey.sol";
 import {PoolId, PoolIdLibrary} from "@uniswap/v4-core/contracts/types/PoolId.sol";
 import {BalanceDelta} from "@uniswap/v4-core/contracts/types/BalanceDelta.sol";
 
+import {Ownable} from "solady/auth/Ownable.sol";
+import {FairTradeERC20} from "./FairTradeERC20.sol";
+
 import "forge-std/Test.sol";
 
 // Need to get information re. token
 
-contract FairTrade is BaseHook {
+contract FairTrade is BaseHook, Ownable {
     using PoolIdLibrary for PoolId;
 
     // Pool will be created with ETH and a new token
-    address public token = address(0);
+    string internal name;
+    string internal symbol;
+    uint8 internal decimals;
+
+    address public tokenAddress = address(0);
     mapping(address => bool) public isFunder;
 
-    constructor(IPoolManager _poolManager) BaseHook(_poolManager) {}
+    constructor(
+        IPoolManager _poolManager,
+        string memory _name,
+        string memory _symbol,
+        uint8 _decimals
+    ) BaseHook(_poolManager) {
+        name = _name;
+        symbol = _symbol;
+        decimals = _decimals;
+    }
 
     function getHooksCalls() public pure override returns (Hooks.Calls memory) {
         return
@@ -36,12 +52,32 @@ contract FairTrade is BaseHook {
             });
     }
 
+    // Use this function to fund the token
     function depositEth() public payable {
-        require(address(token) == address(0), "FairTrade: Token already set");
+        require(
+            address(tokenAddress) == address(0),
+            "FairTrade: Token already set"
+        );
         require(msg.value > 0, "FairTrade: No ETH sent");
         require(msg.value == 0.1 ether, "FairTrade: Must send 0.1 ETH");
         require(!isFunder[msg.sender], "FairTrade: Already funded");
         isFunder[msg.sender] = true;
+    }
+
+    // If token has not launched yet, user can quit
+    function quit() public {
+        require(isFunder[msg.sender], "FairTrade: Not a funder");
+        require(
+            address(tokenAddress) == address(0),
+            "FairTrade: Token already set"
+        );
+        isFunder[msg.sender] = false;
+        payable(msg.sender).transfer(0.1 ether);
+    }
+
+    function launchToken() public onlyOwner {
+        FairTradeERC20 token = new FairTradeERC20(name, symbol, decimals);
+        tokenAddress = address(token);
     }
 
     // function beforeInitialize(
