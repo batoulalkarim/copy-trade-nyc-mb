@@ -10,3 +10,6 @@
 [submodule "contracts/lib/forge-gas-snapshot"]
 	path = contracts/lib/forge-gas-snapshot
 	url = https://github.com/marktoda/forge-gas-snapshot
+[submodule "contracts/lib/solady"]
+	path = contracts/lib/solady
+	url = https://github.com/vectorized/solady
