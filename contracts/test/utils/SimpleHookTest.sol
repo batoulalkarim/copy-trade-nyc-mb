@@ -21,12 +21,5 @@ contract SimpleHookTest is Test {
     function initHookTestEnv() public {
         /// @dev 500000 is the gas limit
         manager = new PoolManager(500000);
-
-        // Helpers for interacting with the pool
-        modifyPositionRouter = new PoolModifyPositionTest(
-            IPoolManager(address(manager))
-        );
-        swapRouter = new PoolSwapTest(IPoolManager(address(manager)));
-        donateRouter = new PoolDonateTest(IPoolManager(address(manager)));
     }
 }

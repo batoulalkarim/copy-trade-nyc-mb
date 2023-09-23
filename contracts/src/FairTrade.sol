@@ -4,28 +4,53 @@ pragma solidity ^0.8.19;
 import {BaseHook} from "periphery-next/BaseHook.sol";
 
 import {Hooks} from "@uniswap/v4-core/contracts/libraries/Hooks.sol";
+import {IHooks} from "@uniswap/v4-core/contracts/interfaces/IHooks.sol";
 import {IPoolManager} from "@uniswap/v4-core/contracts/interfaces/IPoolManager.sol";
 import {PoolKey} from "@uniswap/v4-core/contracts/types/PoolKey.sol";
 import {PoolId, PoolIdLibrary} from "@uniswap/v4-core/contracts/types/PoolId.sol";
 import {BalanceDelta} from "@uniswap/v4-core/contracts/types/BalanceDelta.sol";
+import {CurrencyLibrary, Currency} from "@uniswap/v4-core/contracts/types/Currency.sol";
 
 import {Ownable} from "solady/auth/Ownable.sol";
 import {FairTradeERC20} from "./FairTradeERC20.sol";
+
+// Will be official V4 later:
+import {PoolModifyPositionTest} from "@uniswap/v4-core/contracts/test/PoolModifyPositionTest.sol";
+import {PoolSwapTest} from "@uniswap/v4-core/contracts/test/PoolSwapTest.sol";
 
 import "forge-std/Test.sol";
 
 // Need to get information re. token
 
 contract FairTrade is BaseHook, Ownable {
-    using PoolIdLibrary for PoolId;
+    using PoolIdLibrary for PoolKey;
+    using CurrencyLibrary for Currency;
+
+    // LP unlocked one year from launch
+    uint256 public unlockTime = block.timestamp + 365 days;
+
+    PoolModifyPositionTest modifyPositionRouter;
+    PoolSwapTest swapRouter;
+
+    // poolKey and poolId are the pool key and pool id for the pool
+    PoolKey poolKey;
+    PoolId poolId;
+
+    // SQRT_RATIO_1_1 is the Q notation for sqrtPriceX96 where price = 1
+    // i.e. sqrt(1) * 2^96
+    // This is used as the initial price for the pool
+    // as we add equal amounts of token0 and token1 to the pool during setUp
+    uint160 constant SQRT_RATIO_1_1 = 79228162514264337593543950336;
 
     // Pool will be created with ETH and a new token
     string internal name;
     string internal symbol;
     uint8 internal decimals;
 
+    // Need funders
     address public tokenAddress = address(0);
     mapping(address => bool) public isFunder;
+    address[] fundingAddresses = new address[](0);
 
     constructor(
         IPoolManager _poolManager,
@@ -33,6 +58,7 @@ contract FairTrade is BaseHook, Ownable {
         string memory _symbol,
         uint8 _decimals
     ) BaseHook(_poolManager) {
+        _initializeOwner(msg.sender);
         name = _name;
         symbol = _symbol;
         decimals = _decimals;
@@ -44,9 +70,9 @@ contract FairTrade is BaseHook, Ownable {
                 beforeInitialize: true,
                 afterInitialize: true,
                 beforeModifyPosition: true,
-                afterModifyPosition: true,
+                afterModifyPosition: false,
                 beforeSwap: true,
-                afterSwap: true,
+                afterSwap: false,
                 beforeDonate: false,
                 afterDonate: false
             });
@@ -62,6 +88,7 @@ contract FairTrade is BaseHook, Ownable {
         require(msg.value == 0.1 ether, "FairTrade: Must send 0.1 ETH");
         require(!isFunder[msg.sender], "FairTrade: Already funded");
         isFunder[msg.sender] = true;
+        fundingAddresses.push(msg.sender);
     }
 
     // If token has not launched yet, user can quit
@@ -75,68 +102,127 @@ contract FairTrade is BaseHook, Ownable {
         payable(msg.sender).transfer(0.1 ether);
     }
 
-    function launchToken() public onlyOwner {
-        FairTradeERC20 token = new FairTradeERC20(name, symbol, decimals);
-        tokenAddress = address(token);
+    function transferOwnership(
+        address newOwner
+    ) public payable override onlyOwner {
+        require(
+            block.timestamp >= unlockTime,
+            "FairTrade: Ownership cannot change yet"
+        );
+        assembly {
+            if iszero(shl(96, newOwner)) {
+                mstore(0x00, 0x7448fbae) // `NewOwnerIsZeroAddress()`.
+                revert(0x1c, 0x04)
+            }
+        }
+        _setOwner(newOwner);
     }
 
-    // function beforeInitialize(
-    //     address,
-    //     PoolKey calldata,
-    //     IPoolManager.SwapParams calldata,
-    //     BalanceDelta,
-    //     bytes calldata
-    // ) external override returns (bytes4) {
-    //     return BaseHook.beforeInitialize.selector;
-    // }
+    function launch() public onlyOwner {
+        require(
+            address(tokenAddress) == address(0),
+            "FairTrade: Token already set"
+        );
+        FairTradeERC20 token = new FairTradeERC20(name, symbol, decimals);
+        tokenAddress = address(token);
 
-    // function afterInitialize(
-    //     address,
-    //     PoolKey calldata,
-    //     IPoolManager.SwapParams calldata,
-    //     BalanceDelta,
-    //     bytes calldata
-    // ) external override returns (bytes4) {
-    //     return BaseHook.afterInitialize.selector;
-    // }
+        _initializePool();
+    }
 
-    // function beforeModifyPosition(
-    //     address,
-    //     PoolKey calldata,
-    //     IPoolManager.SwapParams calldata,
-    //     BalanceDelta,
-    //     bytes calldata
-    // ) external override returns (bytes4) {
-    //     return BaseHook.beforeModifyPosition.selector;
-    // }
+    function _mintTokensToFunders() private {
+        console.log("mintTokensToFunders");
+        for (uint256 i = 0; i < fundingAddresses.length; i++) {
+            if (isFunder[fundingAddresses[i]]) {
+                FairTradeERC20(tokenAddress).mint(
+                    fundingAddresses[i],
+                    1000 ether
+                );
+            }
+        }
+    }
 
-    // function afterModifyPosition(
-    //     address,
-    //     PoolKey calldata,
-    //     IPoolManager.SwapParams calldata,
-    //     BalanceDelta,
-    //     bytes calldata
-    // ) external override returns (bytes4) {
-    //     return BaseHook.afterModifyPosition.selector;
-    // }
+    function _initializePool() private {
+        console.log("initializePool");
+        // Need to launch the pool
+        // Deploy the test-versions of modifyPositionRouter and swapRouter
+        modifyPositionRouter = new PoolModifyPositionTest(
+            IPoolManager(address(poolManager))
+        );
+        swapRouter = new PoolSwapTest(IPoolManager(address(poolManager)));
 
-    // function beforeSwap(
-    //     address,
-    //     PoolKey calldata,
-    //     IPoolManager.SwapParams calldata,
-    //     BalanceDelta,
-    //     bytes calldata
-    // ) external override returns (bytes4) {
-    //     return BaseHook.beforeSwap.selector;
-    // }
+        poolKey = PoolKey({
+            currency0: CurrencyLibrary.NATIVE,
+            currency1: Currency.wrap(address(tokenAddress)),
+            fee: 3000,
+            tickSpacing: 60,
+            hooks: IHooks(address(this))
+        });
 
-    // function afterSwap(
-    //     address,
-    //     PoolKey calldata,
-    //     IPoolManager.SwapParams calldata,
-    //     BalanceDelta,
-    //     bytes calldata
-    // ) external override returns (bytes4) {
-    //     return BaseHook.afterSwap.selector;
-    // }
+        poolId = poolKey.toId();
+        poolManager.initialize(poolKey, SQRT_RATIO_1_1, abi.encode(""));
+    }
+
+    function _addLiquidityToPool() private {
+        console.log("addLiquidityToPool");
+        // Mint tokens
+        // Approve tokens to be used by the position router
+        // Modify the positions with the pool key (i.e. add liquidity at different points)
+        // Approve  tokens to be swapped through the swap router
+    }
+
+    // Note: Add function later to lock ETH for Milady NFTX
+
+    function beforeInitialize(
+        address,
+        PoolKey calldata,
+        uint160,
+        bytes calldata
+    ) external override returns (bytes4) {
+        _mintTokensToFunders();
+        return BaseHook.beforeInitialize.selector;
+    }
+
+    function afterInitialize(
+        address,
+        PoolKey calldata,
+        uint160,
+        int24,
+        bytes calldata
+    ) external override returns (bytes4) {
+        _addLiquidityToPool();
+        return BaseHook.afterInitialize.selector;
+    }
+
+    function beforeModifyPosition(
+        address,
+        PoolKey calldata,
+        IPoolManager.ModifyPositionParams calldata,
+        bytes calldata
+    ) external override returns (bytes4) {
+        console.log("beforeModifyPosition");
+        if (msg.sender == owner()) {
+            require(
+                block.timestamp >= unlockTime,
+                "FairTrade: Owner cannot change LP yet"
+            );
+        }
+        // Figure out what to call here so that owner does not remove LP and dump
+        return BaseHook.beforeModifyPosition.selector;
+    }
+
+    function beforeSwap(
+        address,
+        PoolKey calldata,
+        IPoolManager.SwapParams calldata,
+        bytes calldata
+    ) external override returns (bytes4) {
+        console.log("beforeSwap");
+        if (isFunder[msg.sender]) {
+            require(
+                block.timestamp >= unlockTime,
+                "FairTrade: Funders cannot trade yet"
+            );
+        }
+        return BaseHook.beforeSwap.selector;
+    }
 }

@@ -32,9 +32,7 @@ contract FairTradeTest is SimpleHookTest, Deployers, GasSnapshot {
             Hooks.BEFORE_INITIALIZE_FLAG |
                 Hooks.AFTER_INITIALIZE_FLAG |
                 Hooks.BEFORE_MODIFY_POSITION_FLAG |
-                Hooks.AFTER_MODIFY_POSITION_FLAG |
-                Hooks.BEFORE_SWAP_FLAG | // Not sure if we're gonna use this yet
-                Hooks.AFTER_SWAP_FLAG // Not sure we're gonna use this yet
+                Hooks.BEFORE_SWAP_FLAG // Not sure if we're gonna use this yet
         );
 
         (address hookAddress, bytes32 salt) = HookMiner.find(
@@ -103,7 +101,7 @@ contract FairTradeTest is SimpleHookTest, Deployers, GasSnapshot {
     }
 
     function testLaunchToken() public {
-        hook.launchToken();
+        hook.launch();
     }
 
     receive() external payable {}
