@@ -1,0 +1,868 @@
+/** Global Styling **/
+
+p {
+	margin: 0;
+}
+
+ol,
+ul {
+	list-style: none;
+}
+
+ol,
+ul,
+li {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+body {
+	padding: 0;
+	margin: 0;
+
+	font-size: 16px;
+
+	overflow-x: hidden;
+	overscroll-behavior: contain;
+	direction: ltr;
+	//-webkit-font-smoothing: antialiased;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+input[type='file'] {
+	opacity: 0;
+}
+
+* {
+	font-family: 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+		'Droid Sans', 'Helvetica Neue', sans-serif;
+	box-sizing: border-box;
+	outline: none;
+}
+
+a:hover {
+	cursor: pointer;
+}
+
+.ReactModal__Overlay {
+	z-index: 1000;
+	opacity: 0;
+	transition: opacity 300ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.ReactModal__Overlay--after-open {
+	opacity: 1;
+}
+
+.ReactModal__Overlay--before-close {
+	opacity: 0;
+}
+
+.modal {
+	width: 100%;
+
+	.close-bar {
+		align-items: center;
+		display: flex;
+		width: '100%';
+	}
+	.close-icon {
+		color: #b8b8b8;
+		cursor: pointer;
+		float: right;
+		font-size: 24px;
+		margin-left: auto;
+
+		&:hover {
+			color: #fff;
+		}
+	}
+
+	.title {
+		font-size: 16px;
+		font-weight: bold;
+	}
+
+	.center-text {
+		color: #777;
+		font-size: 14px;
+		text-align: center;
+	}
+}
+
+@media only screen and (max-width: 660px) {
+	.modal {
+		width: 100%;
+	}
+}
+
+// Glow MetaMask
+.glow-metamask {
+	align-items: center;
+	background: #fff;
+	border: none;
+	color: #000;
+	cursor: pointer;
+	display: flex;
+	font-weight: 700;
+	-webkit-font-smoothing: antialiased;
+	height: 48px;
+	justify-content: center;
+	outline: none;
+	padding: 0px 24px;
+	position: relative;
+	z-index: 0;
+	border-radius: 40px;
+	text-transform: uppercase;
+}
+
+.glow-metamask:before {
+	content: '';
+	background: linear-gradient(
+		45deg,
+		#ffbf00,
+		#ff7300,
+		#fffb00,
+		#fbceb1,
+		#f28c28,
+		#ffac1c,
+		#ff7300,
+		#cc5500
+	);
+	position: absolute;
+	top: -2px;
+	left: -2px;
+	background-size: 400%;
+	z-index: -1;
+	filter: blur(8px);
+	width: calc(100% + 2px);
+	height: calc(100% + 2px);
+	animation: glowing 20s linear infinite;
+	opacity: 0;
+	transition: opacity 0.3s ease-in-out;
+	border-radius: 40px;
+}
+
+.glow-metamask:active {
+	color: #000;
+}
+
+.glow-metamask:active:after {
+	background: transparent;
+}
+
+.glow-metamask:hover:before {
+	opacity: 1;
+}
+
+.glow-metamask:after {
+	z-index: -1;
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	color: #fff;
+	left: 0;
+	top: 0;
+	border-radius: 40px;
+}
+
+// Glow WalletConnect
+.glow-walletconnect {
+	align-items: center;
+	background: #fff;
+	border: none;
+	color: #000;
+	cursor: pointer;
+	display: flex;
+	font-weight: 700;
+	-webkit-font-smoothing: antialiased;
+	height: 48px;
+	justify-content: center;
+	outline: none;
+	padding: 0px 24px;
+	margin: 12px 0px 0px 0px;
+	position: relative;
+	z-index: 0;
+	border-radius: 40px;
+	text-transform: uppercase;
+}
+
+.glow-walletconnect:before {
+	content: '';
+	background: linear-gradient(
+		45deg,
+		#00ffff,
+		#f0ffff,
+		#87ceeb,
+		#088f8f,
+		#0000ff,
+		#0047ab,
+		#ccccff,
+		#0096ff
+	);
+	position: absolute;
+	top: -2px;
+	left: -2px;
+	background-size: 400%;
+	z-index: -1;
+	filter: blur(8px);
+	width: calc(100% + 2px);
+	height: calc(100% + 2px);
+	animation: glowing 20s linear infinite;
+	opacity: 0;
+	transition: opacity 0.3s ease-in-out;
+	border-radius: 40px;
+}
+
+.glow-walletconnect:active {
+	color: #000;
+}
+
+.glow-walletconnect:active:after {
+	background: transparent;
+}
+
+.glow-walletconnect:hover:before {
+	opacity: 1;
+}
+
+.glow-walletconnect:after {
+	z-index: -1;
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	color: #fff;
+	left: 0;
+	top: 0;
+	border-radius: 40px;
+}
+
+// Glow Button
+.glow-on-hover {
+	align-items: center;
+	background: #fff;
+	border: none;
+	color: #000;
+	cursor: pointer;
+	display: flex;
+	font-weight: 700;
+	-webkit-font-smoothing: antialiased;
+	height: 48px;
+	justify-content: center;
+	outline: none;
+	padding: 0px 24px;
+	position: relative;
+	z-index: 0;
+	border-radius: 40px;
+	text-transform: uppercase;
+}
+
+#WEB3_CONNECT_MODAL_ID > .web3modal-modal-lightbox {
+	z-index: 11;
+}
+
+.glow-on-hover:before {
+	content: '';
+	background: linear-gradient(
+		45deg,
+		#ff00c8,
+		#ff7300,
+		#fffb00,
+		#48ff00,
+		#00ffd5,
+		#48ff00,
+		#fffb00,
+		#ff7300,
+		#ff00c8
+	);
+	position: absolute;
+	top: -2px;
+	left: -2px;
+	background-size: 400%;
+	z-index: -1;
+	filter: blur(8px);
+	width: calc(100% + 2px);
+	height: calc(100% + 2px);
+	animation: glowing 20s linear infinite;
+	opacity: 0;
+	transition: opacity 0.3s ease-in-out;
+	border-radius: 40px;
+}
+
+.glow-on-hover:active {
+	color: #000;
+}
+
+.glow-on-hover:active:after {
+	background: transparent;
+}
+
+.glow-on-hover:hover:before {
+	opacity: 1;
+}
+
+.glow-on-hover:after {
+	z-index: -1;
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	color: #fff;
+	left: 0;
+	top: 0;
+	border-radius: 40px;
+}
+
+@keyframes glowing {
+	0% {
+		background-position: 0 0;
+	}
+	50% {
+		background-position: 400% 0;
+	}
+	100% {
+		background-position: 0 0;
+	}
+}
+
+// No Select
+.no-select {
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Old versions of Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none;
+}
+
+/** Toast **/
+
+.Toastify {
+	z-index: 10000 !important;
+}
+
+.Toastify__toast {
+	background-color: #0c0c0c !important;
+	border: 1px solid #212121 !important;
+	border-radius: 16px !important;
+	color: #fff !important;
+	font-size: 14px;
+	line-height: 150%;
+
+	@media only screen and (max-width: 780px) {
+		margin: 16px;
+		margin: 16px;
+	}
+}
+
+.Toastify__toast--success {
+}
+
+.Toastify__toast--error {
+}
+
+// Input
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+	-moz-appearance: textfield;
+}
+
+/** Slider Switch **/
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 40px;
+	height: 24px;
+}
+
+.switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #555;
+	-webkit-transition: 0.4s;
+	transition: 0.4s;
+}
+
+.slider:before {
+	position: absolute;
+	content: '';
+	height: 16px;
+	width: 16px;
+	left: 4px;
+	bottom: 4px;
+	background-color: rgba(0, 0, 0, 1);
+	-webkit-transition: 0.4s;
+	transition: 0.4s;
+}
+
+input:checked + .slider {
+	background-color: rgb(28, 176, 255);
+}
+
+input:focus + .slider {
+	box-shadow: 0 0 1px rgb(28, 176, 255);
+}
+
+input:checked + .slider:before {
+	-webkit-transform: translateX(16px);
+	-ms-transform: translateX(16px);
+	transform: translateX(16px);
+}
+
+/* Rounded sliders */
+.slider.round {
+	border-radius: 34px;
+}
+
+.slider.round:before {
+	border-radius: 50%;
+}
+
+// Intercom
+
+.intercom-lightweight-app {
+	z-index: 100 !important;
+}
+
+.intercom-launcher-frame {
+	z-index: 100 !important;
+}
+
+// Web3 Modal
+.web3modal-modal-lightbox {
+	z-index: 1000 !important;
+}
+
+// Accordion
+/* Style the accordion section */
+.accordion__section {
+	display: flex;
+	flex-direction: column;
+}
+
+/* Style the buttons that are used to open and close the accordion panel */
+.accordion {
+	background-color: transparent;
+	color: #fff;
+	cursor: pointer;
+	padding: 0px 0px;
+	display: flex;
+	align-items: center;
+	border: none;
+	outline: none;
+	justify-content: space-between;
+	transition: background-color 0.4s ease;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.accordion:hover,
+.active {
+}
+
+/* Style the accordion content title */
+.accordion__title {
+	color: rgba(255, 255, 255, 0.8);
+	font-weight: 700;
+	-webkit-font-smoothing: antialiased;
+	font-size: 16px;
+	text-align: left;
+	margin-block-end: 32px;
+	margin-block-start: 32px;
+}
+
+/* Style the accordion chevron icon */
+.accordion__icon {
+	margin-left: auto;
+	transition: transform 0.6s ease;
+}
+
+/* Style to rotate icon when state is active */
+.rotate {
+	transform: rotate(90deg);
+}
+
+/* Style the accordion content panel. Note: hidden by default */
+.accordion__content {
+	border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+	color: rgba(255, 255, 255, 0.7);
+	line-height: 1.5;
+	overflow: auto;
+	transition: max-height 0.6s ease;
+}
+
+.accordian__markdown {
+	margin-bottom: 10px;
+}
+
+.accordion__content > p {
+	margin-block-start: 0em;
+}
+
+/* Style the accordion content text */
+.accordion__text {
+	font-size: 16px;
+	line-height: 1.5;
+	padding-bottom: 24px;
+}
+
+// Tabs
+.ant-tabs-large > .ant-tabs-nav .ant-tabs-tab {
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+	color: #fff !important;
+}
+
+.ant-tabs-top > .ant-tabs-nav .ant-tabs-ink-bar,
+.ant-tabs-bottom > .ant-tabs-nav .ant-tabs-ink-bar,
+.ant-tabs-top > div > .ant-tabs-nav .ant-tabs-ink-bar,
+.ant-tabs-bottom > div > .ant-tabs-nav .ant-tabs-ink-bar {
+	height: 1px !important;
+}
+
+.ant-tabs-ink-bar {
+	background: rgb(28 176 255) !important;
+}
+
+.ant-tabs-top > .ant-tabs-nav::before,
+.ant-tabs-bottom > .ant-tabs-nav::before,
+.ant-tabs-top > div > .ant-tabs-nav::before,
+.ant-tabs-bottom > div > .ant-tabs-nav::before {
+	border-bottom: 1px solid rgba(0, 0, 0, 0) !important;
+}
+
+.ant-tabs-top > .ant-tabs-nav,
+.ant-tabs-bottom > .ant-tabs-nav,
+.ant-tabs-top > div > .ant-tabs-nav,
+.ant-tabs-bottom > div > .ant-tabs-nav {
+	margin-bottom: -1px !important;
+}
+
+.ant-tabs-tab-btn {
+	color: rgba(255, 255, 255, 0.6);
+	font-size: 16px !important;
+	font-weight: 700;
+	-webkit-font-smoothing: antialiased;
+
+	&:hover {
+		color: #fff;
+	}
+
+	&:active {
+		transform: translate3d(0px, 2px, 0px);
+	}
+}
+
+.main-navbar .ant-tabs {
+	height: 100% !important;
+}
+
+.main-navbar .ant-tabs > .ant-tabs-nav,
+.ant-tabs > div > .ant-tabs-nav {
+	height: 100% !important;
+}
+
+.main-navbar .ant-tabs-top > .ant-tabs-nav::before,
+.ant-tabs-bottom > .ant-tabs-nav::before,
+.ant-tabs-top > div > .ant-tabs-nav::before,
+.ant-tabs-bottom > div > .ant-tabs-nav::before {
+	border-bottom: 1px solid rgba(0, 0, 0, 0) !important;
+}
+
+.ant-tabs-tab-btn:focus,
+.ant-tabs-tab-remove:focus,
+.ant-tabs-tab-btn:active,
+.ant-tabs-tab-remove:active {
+	color: rgb(255, 255, 255) !important;
+}
+
+.ant-tabs-tab + .ant-tabs-tab {
+	margin: 0 0 0 40px !important;
+}
+
+.main-navbar .ant-tabs-ink-bar {
+	background: rgba(0, 0, 0, 0) !important;
+}
+
+.web3modal-modal-card {
+	grid-template-columns: 1fr !important;
+	max-width: 600px !important;
+}
+
+// We want to make wallet connect the last option:
+// This css applies to the 2nd of 3 children (which right now we know should old be wallet connect)
+.web3modal-provider-wrapper:nth-child(2):nth-last-child(2) {
+	order: 3;
+}
+
+.holdings-chart {
+	position: relative;
+	line {
+		stroke: #fff;
+		opacity: 0.07;
+	}
+
+	.recharts-wrapper {
+		position: relative;
+		display: block;
+
+		// &::after {
+		// 	position: absolute;
+		// 	top: 0;
+		// 	right: 0;
+		// 	bottom: 0;
+		// 	left: 0;
+		// 	transform: translateX(-100%);
+
+		// 	background-image: linear-gradient(
+		// 		90deg,
+		// 		rgba(#000, 0) 0,
+		// 		rgba(#000, 0.2) 30%,
+		// 		rgba(#000, 0.5) 80%,
+		// 		rgba(#000, 0)
+		// 	);
+		// 	animation: shimmer 1s infinite;
+		// 	content: '';
+		// }
+	}
+
+	@keyframes shimmer {
+		100% {
+			transform: translateX(100%);
+		}
+	}
+}
+
+.-cbwsdk-try-extension {
+	flex-wrap: wrap;
+	max-width: 100%;
+	height: auto !important;
+}
+
+.-cbwsdk-connect-dialog-box {
+	max-width: 90%;
+	margin: 0 auto;
+	padding-top: 200px;
+
+	@media only screen and (max-width: 1024px) {
+		.-cbwsdk-connect-content-column-right,
+		.-cbwsdk-connect-content-column-left {
+			margin: 0 !important;
+			flex-grow: 1;
+		}
+
+		.-cbwsdk-try-extension {
+			display: none !important;
+		}
+	}
+
+	.-cbwsdk-connect-content {
+		max-width: 100%;
+	}
+
+	.-cbwsdk-connect-content-layout {
+		flex-wrap: wrap;
+	}
+
+	.-cbwsdk-connect-content {
+		height: auto !important;
+	}
+
+	.-cbwsdk-connect-content-qr-wrapper {
+		margin: 0 auto;
+	}
+}
+
+@mixin faded($offset, $blur-radius, $spread-radius) {
+	&.faded-left:after {
+		box-shadow: inset $offset 0 $blur-radius (-$spread-radius);
+	}
+
+	&.faded-right:after {
+		box-shadow: inset (-$offset) 0 $blur-radius (-$spread-radius);
+	}
+
+	&.faded-top:after {
+		box-shadow: inset 0 $offset $blur-radius (-$spread-radius);
+	}
+
+	&.faded-bottom:after {
+		box-shadow: inset 0 (-$offset) $blur-radius (-$spread-radius);
+	}
+
+	&.faded-left.faded-right:after {
+		box-shadow: inset $offset 0 $blur-radius (-$spread-radius),
+			inset (-$offset) 0 $blur-radius (-$spread-radius);
+	}
+
+	&.faded-left.faded-top:after {
+		box-shadow: inset $offset ($offset) $blur-radius (-$spread-radius);
+	}
+
+	&.faded-right.faded-bottom:after {
+		box-shadow: inset (-$offset) (-$offset) $blur-radius (-$spread-radius);
+	}
+
+	&.faded-top.faded-right:after {
+		box-shadow: inset (-$offset) $offset $blur-radius (-$spread-radius);
+	}
+
+	&.faded-top.faded-bottom:after {
+		box-shadow: inset 0 $offset $blur-radius (-$spread-radius),
+			inset 0 (-$offset) $blur-radius (-$spread-radius);
+	}
+
+	&.faded-left.faded-bottom:after {
+		box-shadow: inset $offset (-$offset) $blur-radius (-$spread-radius);
+	}
+
+	&.faded-top.faded-right.faded-bottom:after {
+		box-shadow: inset (-$offset/2) 0 $blur-radius $spread-radius;
+	}
+
+	&.faded-left.faded-right.faded-bottom:after {
+		box-shadow: inset 0 (-$offset/2) $blur-radius $spread-radius;
+	}
+
+	&.faded-left.faded-top.faded-bottom:after {
+		box-shadow: inset ($offset/2) 0 $blur-radius $spread-radius;
+	}
+
+	&.faded-left.faded-top.faded-right:after {
+		box-shadow: inset 0 ($offset/2) $blur-radius $spread-radius;
+	}
+
+	&.faded-all:after,
+	&.faded-left.faded-top.faded-right.faded-bottom:after {
+		box-shadow: inset 0 0 $blur-radius $spread-radius;
+	}
+}
+
+$faded-offset: 40px !default;
+$faded-blur-radius: 40px !default;
+$faded-spread-radius: 16px !default;
+
+$faded-narrow-offset: 20px !default;
+$faded-narrow-blur-radius: 20px !default;
+$faded-narrow-spread-radius: 10px !default;
+
+$faded-wide-offset: 80px !default;
+$faded-wide-blur-radius: 80px !default;
+$faded-wide-spread-radius: 28px !default;
+
+$faded-heavy-offset: 180px !default;
+$faded-heavy-blur-radius: 180px !default;
+$faded-heavy-spread-radius: 30px !default;
+
+.faded {
+	position: relative;
+	color: inherit;
+
+	&:after {
+		content: '';
+		position: absolute;
+		display: block;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		border-collapse: separate;
+	}
+
+	@include faded($faded-offset, $faded-blur-radius, $faded-spread-radius);
+
+	&.faded-narrow {
+		@include faded(
+			$faded-narrow-offset,
+			$faded-narrow-blur-radius,
+			$faded-narrow-spread-radius
+		);
+	}
+
+	&.faded-wide {
+		@include faded(
+			$faded-wide-offset,
+			$faded-wide-blur-radius,
+			$faded-wide-spread-radius
+		);
+	}
+
+	&.faded-heavy {
+		@include faded(
+			$faded-heavy-offset,
+			$faded-heavy-blur-radius,
+			$faded-heavy-spread-radius
+		);
+	}
+}
+
+.feed__item {
+	max-width: 600px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	box-shadow: 0 0 7px 2px rgba(0, 0, 0, 0.1);
+	border-radius: 6px;
+}
+.feed__item__description {
+	margin: 1rem 1rem;
+}
+.feed__item__img {
+	padding: 1rem;
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	flex-shrink: 0;
+	box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.1);
+}
+
+.intersection-observer {
+	width: 70%;
+	height: 48px;
+	border: 1px solid blue;
+	margin: 0 auto;
+	background-color: rgba(0, 0, 255, 0.25);
+	box-shadow: 0 0 7px 2px rgba(0, 0, 0, 0.1);
+}
+
+#virtual-list {
+	position: relative;
+}
+.virtual-bottom-observer {
+	background-color: rgba(0, 0, 255, 0.25);
+}
+.virtual-top-observer {
+	background-color: rgba(255, 7, 63, 0.25);
+}
+
+.absolute-center {
+	position: absolute;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+	top: 0;
+}

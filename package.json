@@ -1,25 +1,36 @@
 {
-  "name": "my-app",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@types/node": "20.6.3",
-    "@types/react": "18.2.22",
-    "@types/react-dom": "18.2.7",
-    "autoprefixer": "10.4.16",
-    "eslint": "8.50.0",
-    "eslint-config-next": "13.5.2",
-    "next": "13.5.2",
-    "postcss": "8.4.30",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "tailwindcss": "3.3.3",
-    "typescript": "5.2.2"
-  }
+	"name": "my-app",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"@types/node": "20.6.0",
+		"@types/react": "18.2.21",
+		"@types/react-dom": "18.2.7",
+		"eslint": "8.49.0",
+		"eslint-config-next": "13.4.19",
+		"next": "13.4.19",
+		"react": "18.2.0",
+		"react-confetti": "^6.1.0",
+		"react-dom": "18.2.0",
+		"react-jazzicon": "^1.0.4",
+		"react-modal": "^3.16.1",
+		"sass": "^1.66.1",
+		"styled-components": "^6.0.7",
+		"styled-icons": "^10.47.0",
+		"typescript": "5.2.2"
+	},
+	"resolutions": {
+		"styled-components": "^5"
+	},
+	"devDependencies": {
+		"@types/react-modal": "^3.16.0",
+		"@types/styled-components": "^5.1.26",
+		"babel-plugin-styled-components": "^2.1.4"
+	}
 }
