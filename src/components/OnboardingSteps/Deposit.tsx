@@ -29,11 +29,6 @@ export function Deposit({
 				<ActionButton onClick={onModalOpen}>Deposit</ActionButton>
 			</ActionContainer>
 
-			{/* <ActionContainer>
-				<ActionText>Receive on Base</ActionText>
-				<ActionSubtext>0xBa7E...3528</ActionSubtext>
-				<ActionButton>Copy address</ActionButton>
-			</ActionContainer> */}
 			<ButtonContainer>
 				<Button action={handleNext} text='Proceed' />
 				<Button
