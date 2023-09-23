@@ -4,9 +4,6 @@ import { useRouter } from "next/router";
 import { usePrivy } from "@privy-io/react-auth";
 
 export function Connect({ handleNext }: { handleNext: () => void }) {
-  //   function login() {
-  //     window.location.href = "/api/twitter-auth";
-  //   }
   const { linkTwitter } = usePrivy();
   return (
     <Container>
