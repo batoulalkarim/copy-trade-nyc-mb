@@ -2,13 +2,15 @@
 pragma solidity ^0.8.19;
 
 import {BaseHook} from "periphery-next/BaseHook.sol";
-import {IPoolManager} from "v4-core/interfaces/IPoolManager.sol";
-import {PoolId, PoolIdLibrary} from "v4-core/types/PoolId.sol";
+
+import {Hooks} from "@uniswap/v4-core/contracts/libraries/Hooks.sol";
+import {IPoolManager} from "@uniswap/v4-core/contracts/interfaces/IPoolManager.sol";
+import {PoolKey} from "@uniswap/v4-core/contracts/types/PoolKey.sol";
+import {PoolId, PoolIdLibrary} from "@uniswap/v4-core/contracts/types/PoolId.sol";
+import {BalanceDelta} from "@uniswap/v4-core/contracts/types/BalanceDelta.sol";
 
 contract CopyTrade is BaseHook {
     using PoolIdLibrary for PoolId;
-
-    // uint256 public beforeSwapCount;
 
     constructor(IPoolManager _poolManager) BaseHook(_poolManager) {}
 

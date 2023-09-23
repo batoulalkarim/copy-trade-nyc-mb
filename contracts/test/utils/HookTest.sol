@@ -3,18 +3,18 @@ pragma solidity ^0.8.19;
 
 import {Test} from "forge-std/Test.sol";
 
-import {PoolManager} from "v4-core/PoolManager.sol";
-import {IPoolManager} from "v4-core/interfaces/IPoolManager.sol";
-import {PoolKey} from "v4-core/types/PoolKey.sol";
+import {PoolManager} from "@uniswap/v4-core/contracts/PoolManager.sol";
+import {IPoolManager} from "@uniswap/v4-core/contracts/interfaces/IPoolManager.sol";
+import {PoolKey} from "@uniswap/v4-core/contracts/types/PoolKey.sol";
 
 // Tests from Uniswap
-import {PoolModifyPositionTest} from "v4-core/test/PoolModifyPositionTest.sol";
-import {PoolSwapTest} from "v4-core/test/PoolSwapTest.sol";
-import {PoolDonateTest} from "v4-core/test/PoolDonateTest.sol";
+import {PoolModifyPositionTest} from "@uniswap/v4-core/contracts/test/PoolModifyPositionTest.sol";
+import {PoolSwapTest} from "@uniswap/v4-core/contracts/test/PoolSwapTest.sol";
+import {PoolDonateTest} from "@uniswap/v4-core/contracts/test/PoolDonateTest.sol";
 
 // Mocks and libraries from Uniswap
-import {TestERC20} from "v4-core/test/TestERC20.sol";
-import {TickMath} from "v4-core/libraries/TickMath.sol";
+import {TestERC20} from "@uniswap/v4-core/contracts/test/TestERC20.sol";
+import {TickMath} from "@uniswap/v4-core/contracts/libraries/TickMath.sol";
 
 /// @title HookTest - a contract to initial test helpers; minimal initialization of V4 (setup pools and provision liquidity)
 contract HookTest is Test {

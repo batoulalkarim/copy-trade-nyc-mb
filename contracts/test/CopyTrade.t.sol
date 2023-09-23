@@ -2,22 +2,21 @@
 pragma solidity ^0.8.19;
 
 import {Test, console2} from "forge-std/Test.sol";
+import {GasSnapshot} from "forge-gas-snapshot/GasSnapshot.sol";
 import {CopyTrade} from "../src/CopyTrade.sol";
-import {IHooks} from "v4-core/interfaces/IHooks.sol";
-import {Hooks} from "v4-core/libraries/Hooks.sol";
-import {TickMath} from "v4-core/libraries/TickMath.sol";
-import {IPoolManager} from "v4-core/interfaces/IPoolManager.sol";
-import {PoolKey} from "v4-core/types/PoolKey.sol";
-import {PoolId, PoolIdLibrary} from "v4-core/types/PoolId.sol";
-import {CurrencyLibrary, Currency} from "v4-core/types/Currency.sol";
+import {IHooks} from "@uniswap/v4-core/contracts/interfaces/IHooks.sol";
+import {Hooks} from "@uniswap/v4-core/contracts/libraries/Hooks.sol";
+import {TickMath} from "@uniswap/v4-core/contracts/libraries/TickMath.sol";
+import {IPoolManager} from "@uniswap/v4-core/contracts/interfaces/IPoolManager.sol";
+import {CurrencyLibrary, Currency} from "@uniswap/v4-core/contracts/types/Currency.sol";
+import {PoolKey} from "@uniswap/v4-core/contracts/types/PoolKey.sol";
+import {PoolId, PoolIdLibrary} from "@uniswap/v4-core/contracts/types/PoolId.sol";
+import {Deployers} from "@uniswap/v4-core/test/foundry-tests/utils/Deployers.sol";
 import {HookTest} from "./utils/HookTest.sol";
 import {CopyTrade} from "../src/CopyTrade.sol";
 import {HookMiner} from "./utils/HookMiner.sol";
 
-// Test import from uniswap-v4-core tests
-import {Deployers} from "@uniswap/v4-core/test/foundry-tests/utils/Deployers.sol";
-
-contract CopyTradeTest is Test {
+contract CopyTradeTest is HookTest, Deployers, GasSnapshot {
     using PoolIdLibrary for PoolKey;
     using CurrencyLibrary for Currency;
 
