@@ -31,7 +31,8 @@
 		"web3": "^4.1.2"
 	},
 	"resolutions": {
-		"styled-components": "^5"
+		"@types/react": "<18.0.0",
+		"@types/react-dom": "<18.0.0"
 	},
 	"devDependencies": {
 		"@types/react-modal": "^3.16.0",

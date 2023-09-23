@@ -33,7 +33,8 @@ export default function Dashboard() {
         setShowPrivyNotice(true);
         setStep("PRIVY_NOTICE");
       } else {
-        if (walletBalance < 0.1) {
+        //change this to 0.1 before demo
+        if (walletBalance < 0) {
           setShowDepositNotice(true);
         } else {
           setShowDepositNotice(false);
@@ -68,7 +69,7 @@ export default function Dashboard() {
   return (
     <Container>
       <Title>Dashboard</Title>
-      <Subtitle>Track all your COPYTRADE positions here</Subtitle>
+      <Subtitle>Launch a Token here</Subtitle>
       {step === "PRIVY_NOTICE" ||
         (showPrivyNotice && (
           <PrivyNotice
@@ -83,6 +84,7 @@ export default function Dashboard() {
             handleBack={() => handleStep("PRIVY_NOTICE")}
           />
         ))}
+      <button onClick={() => router.push("/launch")}>Launch a Token</button>
     </Container>
   );
 }

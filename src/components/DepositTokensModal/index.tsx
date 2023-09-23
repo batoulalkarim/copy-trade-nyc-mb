@@ -1,8 +1,11 @@
 import Modal from "react-modal";
 import { styled } from "styled-components";
 import { Close } from "styled-icons/ionicons-outline";
-import { SwapBox } from "../SwapBox";
-import QRCode from "qrcode.react";
+import { ComponentType } from "react";
+import { EthereumAddressQR } from "../EthereumAddressQR";
+import { usePrivy } from "@privy-io/react-auth";
+
+const ModalSafeForReact18 = Modal as ComponentType<ReactModal["props"]>;
 
 export const DepositTokensModal = ({
   showModal,
@@ -11,37 +14,44 @@ export const DepositTokensModal = ({
   showModal: boolean;
   onModalClose: () => void;
 }) => {
+  const { user } = usePrivy();
   return (
-    <_Modal
+    <ModalSafeForReact18
       isOpen={showModal}
       onRequestClose={onModalClose}
       ariaHideApp={false}
+      style={{
+        content: {
+          backgroundColor: "#fff",
+          borderRadius: "8px",
+          boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
+          height: "440px",
+          padding: "16px",
+          width: "400px",
+          margin: "240px auto",
+        },
+      }}
     >
       <Header>
         <Title>Deposit tokens</Title>
         <CloseIcon onClick={onModalClose} size={32} />
       </Header>
       <Subtitle>Add the tokens you want to trade with</Subtitle>
-      <QRCode walletAddress={walletAddress} />
+      {user && user.wallet && user.wallet.address && (
+        <QrCodeContainer>
+          <EthereumAddressQR walletAddress={user.wallet.address} />
+        </QrCodeContainer>
+      )}
+
       <HelperContainer>
         This address can only receive ETH and ERC20 tokens on Ethereum mainnet.
         Do not send tokens from other networks or it may result in a loss of
         funds.
       </HelperContainer>
-    </_Modal>
+    </ModalSafeForReact18>
   );
 };
 
-const _Modal = styled(Modal)`
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  height: 440px;
-  padding: 16px;
-  width: 400px;
-  position: relative;
-  margin: 240px auto;
-`;
 const Header = styled.div`
   align-items: center;
   display: flex;
@@ -81,4 +91,12 @@ const HelperContainer = styled.div`
   display: flex;
   margin: 0 auto;
   align-items: center;
+`;
+
+const QrCodeContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-left: 90px;
+  margin-top: 10px;
 `;
