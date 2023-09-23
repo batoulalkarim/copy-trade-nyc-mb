@@ -10,3 +10,6 @@
 [submodule "contracts/lib/v4-core"]
 	path = contracts/lib/v4-core
 	url = https://github.com/Uniswap/v4-core
+[submodule "contracts/lib/forge-gas-snapshot"]
+	path = contracts/lib/forge-gas-snapshot
+	url = https://github.com/marktoda/forge-gas-snapshot
