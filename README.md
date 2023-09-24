@@ -18,6 +18,10 @@ Fair Trade is a Uniswap V4 pool that launches tokens with safety guarantees for 
 
 ### Mechanism
 
+1. Hooks used: `beforeInitialize`, `afterInitialize`, `beforeModifyPosition`, `beforeSwap`
+2. ERC20 base is `Solady`
+3. Deployment is loosely outlined in `test/FairTrade.t.sol`
+
 ### Usage
 
 To use this hook:
