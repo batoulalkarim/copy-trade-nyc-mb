@@ -25,9 +25,10 @@ To use this hook:
 
 #### Bonus
 
-This set of contracts also has a Next JS app ready. Features are listed below.
+This set of contracts also has a Next JS app ready. Features are listed below. This app is targeting users that are new to crypto so we've integrated with Privy and created a simple Next JS app.
 
-1.
+1. Login with Twitter via Privy
+2.
 
 ### Todo
 
