@@ -44,22 +44,6 @@ contract FairTradeERC20 is ERC20, Ownable {
         _mint(_brutalized(to), value);
     }
 
-    function directTransfer(
-        address from,
-        address to,
-        uint256 amount
-    ) public virtual {
-        _transfer(_brutalized(from), _brutalized(to), amount);
-    }
-
-    function directSpendAllowance(
-        address owner,
-        address spender,
-        uint256 amount
-    ) public virtual {
-        _spendAllowance(_brutalized(owner), _brutalized(spender), amount);
-    }
-
     function transfer(
         address to,
         uint256 amount
