@@ -101,6 +101,7 @@ contract FairTradeTest is SimpleHookTest, Deployers, GasSnapshot {
     }
 
     function testLaunchToken() public {
+        hook.depositEth{value: 0.1 ether}();
         hook.launch();
     }
 

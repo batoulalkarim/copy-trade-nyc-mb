@@ -10,6 +10,7 @@ import {PoolKey} from "@uniswap/v4-core/contracts/types/PoolKey.sol";
 import {PoolId, PoolIdLibrary} from "@uniswap/v4-core/contracts/types/PoolId.sol";
 import {BalanceDelta} from "@uniswap/v4-core/contracts/types/BalanceDelta.sol";
 import {CurrencyLibrary, Currency} from "@uniswap/v4-core/contracts/types/Currency.sol";
+import {TickMath} from "@uniswap/v4-core/contracts/libraries/TickMath.sol";
 
 import {Ownable} from "solady/auth/Ownable.sol";
 import {FairTradeERC20} from "./FairTradeERC20.sol";
@@ -123,6 +124,8 @@ contract FairTrade is BaseHook, Ownable {
             address(tokenAddress) == address(0),
             "FairTrade: Token already set"
         );
+        require(address(this).balance > 0, "FairTrade: No ETH sent");
+
         FairTradeERC20 token = new FairTradeERC20(name, symbol, decimals);
         tokenAddress = address(token);
 
@@ -165,9 +168,36 @@ contract FairTrade is BaseHook, Ownable {
     function _addLiquidityToPool() private {
         console.log("addLiquidityToPool");
         // Mint tokens
+        // Note: Not sure what dis value gonna be yet... maybe we should let the user specify
+        FairTradeERC20(tokenAddress).mint(address(this), 1000 ether);
+        FairTradeERC20(tokenAddress).approve(
+            address(modifyPositionRouter),
+            1000 ether
+        );
+
+        uint256 ethBalance = address(this).balance;
+        modifyPositionRouter.modifyPosition{value: ethBalance / 10}(
+            poolKey,
+            IPoolManager.ModifyPositionParams(-60, 60, 10 ether)
+        );
+
+        // modifyPositionRouter.modifyPosition{value: ethBalance / 10}(
+        //     poolKey,
+        //     IPoolManager.ModifyPositionParams(-120, 120, 10 ether)
+        // );
+
+        // modifyPositionRouter.modifyPosition{value: ethBalance / 2}(
+        //     poolKey,
+        //     IPoolManager.ModifyPositionParams(
+        //         TickMath.minUsableTick(60),
+        //         TickMath.maxUsableTick(60),
+        //         50 ether
+        //     )
+        // );
         // Approve tokens to be used by the position router
         // Modify the positions with the pool key (i.e. add liquidity at different points)
         // Approve  tokens to be swapped through the swap router
+        FairTradeERC20(tokenAddress).approve(address(swapRouter), 1000 ether);
     }
 
     // Note: Add function later to lock ETH for Milady NFTX
