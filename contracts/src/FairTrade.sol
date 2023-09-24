@@ -19,8 +19,6 @@ import {FairTradeERC20} from "./FairTradeERC20.sol";
 import {PoolModifyPositionTest} from "@uniswap/v4-core/contracts/test/PoolModifyPositionTest.sol";
 import {PoolSwapTest} from "@uniswap/v4-core/contracts/test/PoolSwapTest.sol";
 
-import "forge-std/Test.sol";
-
 // Need to get information re. token
 
 contract FairTrade is BaseHook, Ownable {
@@ -133,7 +131,6 @@ contract FairTrade is BaseHook, Ownable {
     }
 
     function _mintTokensToFunders() private {
-        console.log("mintTokensToFunders");
         for (uint256 i = 0; i < fundingAddresses.length; i++) {
             if (isFunder[fundingAddresses[i]]) {
                 FairTradeERC20(tokenAddress).mint(
@@ -145,7 +142,6 @@ contract FairTrade is BaseHook, Ownable {
     }
 
     function _initializePool() private {
-        console.log("initializePool");
         // Need to launch the pool
         // Deploy the test-versions of modifyPositionRouter and swapRouter
         modifyPositionRouter = new PoolModifyPositionTest(
@@ -166,7 +162,6 @@ contract FairTrade is BaseHook, Ownable {
     }
 
     function _addLiquidityToPool() private {
-        console.log("addLiquidityToPool");
         // Mint tokens
         // Note: Not sure what dis value gonna be yet... maybe we should let the user specify
         FairTradeERC20(tokenAddress).mint(address(this), 1000 ether);
@@ -233,8 +228,7 @@ contract FairTrade is BaseHook, Ownable {
         PoolKey calldata,
         IPoolManager.ModifyPositionParams calldata,
         bytes calldata
-    ) external override returns (bytes4) {
-        console.log("beforeModifyPosition");
+    ) external view override returns (bytes4) {
         if (msg.sender == owner()) {
             require(
                 block.timestamp >= unlockTime,
@@ -250,8 +244,7 @@ contract FairTrade is BaseHook, Ownable {
         PoolKey calldata,
         IPoolManager.SwapParams calldata,
         bytes calldata
-    ) external override returns (bytes4) {
-        console.log("beforeSwap");
+    ) external view override returns (bytes4) {
         if (isFunder[msg.sender]) {
             require(
                 block.timestamp >= unlockTime,
@@ -259,6 +252,101 @@ contract FairTrade is BaseHook, Ownable {
             );
         }
         return BaseHook.beforeSwap.selector;
+    }
+
+    function handleSwap(
+        PoolKey memory key,
+        IPoolManager.SwapParams memory params,
+        address sender
+    ) external returns (BalanceDelta delta) {
+        delta = poolManager.swap(key, params, abi.encode(""));
+
+        if (params.zeroForOne) {
+            if (delta.amount0() > 0) {
+                if (key.currency0.isNative()) {
+                    poolManager.settle{value: uint128(delta.amount0())}(
+                        key.currency0
+                    );
+                } else {
+                    FairTradeERC20(Currency.unwrap(key.currency0)).transfer(
+                        address(poolManager),
+                        uint128(delta.amount0())
+                    );
+                    poolManager.settle(key.currency0);
+                }
+            }
+            if (delta.amount1() < 0) {
+                poolManager.take(
+                    key.currency1,
+                    sender,
+                    uint128(-delta.amount1())
+                );
+            }
+        } else {
+            if (delta.amount1() > 0) {
+                if (key.currency1.isNative()) {
+                    poolManager.settle{value: uint128(delta.amount1())}(
+                        key.currency1
+                    );
+                } else {
+                    FairTradeERC20(Currency.unwrap(key.currency1)).transfer(
+                        address(poolManager),
+                        uint128(delta.amount1())
+                    );
+                    poolManager.settle(key.currency1);
+                }
+            }
+            if (delta.amount0() < 0) {
+                poolManager.take(
+                    key.currency0,
+                    sender,
+                    uint128(-delta.amount0())
+                );
+            }
+        }
+    }
+
+    function handleModifyPosition(
+        PoolKey memory key,
+        IPoolManager.ModifyPositionParams memory params,
+        address caller
+    ) external returns (BalanceDelta delta) {
+        delta = poolManager.modifyPosition(key, params, abi.encode(""));
+        if (delta.amount0() > 0) {
+            if (key.currency0.isNative()) {
+                poolManager.settle{value: uint128(delta.amount0())}(
+                    key.currency0
+                );
+            } else {
+                FairTradeERC20(Currency.unwrap(key.currency0)).transferFrom(
+                    caller,
+                    address(poolManager),
+                    uint128(delta.amount0())
+                );
+                poolManager.settle(key.currency0);
+            }
+        }
+        if (delta.amount1() > 0) {
+            if (key.currency1.isNative()) {
+                poolManager.settle{value: uint128(delta.amount1())}(
+                    key.currency1
+                );
+            } else {
+                FairTradeERC20(Currency.unwrap(key.currency1)).transferFrom(
+                    caller,
+                    address(poolManager),
+                    uint128(delta.amount1())
+                );
+                poolManager.settle(key.currency1);
+            }
+        }
+
+        if (delta.amount0() < 0) {
+            poolManager.take(key.currency0, caller, uint128(-delta.amount0()));
+        }
+        if (delta.amount1() < 0) {
+            poolManager.take(key.currency1, caller, uint128(-delta.amount1()));
+        }
     }
 
     receive() external payable {}
