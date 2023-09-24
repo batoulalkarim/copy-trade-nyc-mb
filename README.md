@@ -2,6 +2,10 @@
 
 Launch ERC-20 tokens with Uniswap V4 and protect your token holders with Fair Trade.
 
+## Authors
+
+Mehran Hydary (mehran@castle.link) and Batoul Alkarim
+
 ## Overview
 
 Fair Trade is a Uniswap V4 pool that launches tokens with safety guarantees for future token holders and traders. By leveraging Uniswap V4 hooks, projects can safely raise ETH, distribute tokens, pool liquidity, and put time-locks on tokens.
