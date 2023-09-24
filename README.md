@@ -41,11 +41,11 @@ This set of contracts also has a Next JS app ready. Features are listed below. T
 
 ### Todo
 
-[] Write tests to validate swapping and modifying position capabilities
-[] Make fields more dynamic (unlockTime, initialPrice, ethAmount for initial funders, supporting multiple deposits per funder, support other ERC20 token types, mintTokenAmount, fee, tickSpacing)
-[] Secure the contracts (check the ownership, ensure functions cannot be tampered with, reentrancy, etc.)
-[] Deploy contracts (on Mainnet, Scroll, Arbitrum, Polygon, etc.)
-[] Connect front end
+-   [ ] Write tests to validate swapping and modifying position capabilities
+-   [ ] Make fields more dynamic (unlockTime, initialPrice, ethAmount for initial funders, supporting multiple deposits per funder, support other ERC20 token types, mintTokenAmount, fee, tickSpacing)
+-   [ ] Secure the contracts (check the ownership, ensure functions cannot be tampered with, reentrancy, etc.)
+-   [ ] Deploy contracts (on Mainnet, Scroll, Arbitrum, Polygon, etc.)
+-   [ ] Connect front end
 
 ### License
 
