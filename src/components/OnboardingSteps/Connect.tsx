@@ -7,9 +7,14 @@ export function Connect({ handleNext }: { handleNext: () => void }) {
   const { linkTwitter } = usePrivy();
   return (
     <Container>
-      <Title>COPYTRADE</Title>
+      <Title>FAIRTRADE</Title>
       <Subtitle>{`Use X or your MetaMask to connect.`}</Subtitle>
-      <Button action={linkTwitter} text="Login with X" />
+      <Button
+        action={linkTwitter}
+        text="Login with X"
+        borderRadius="25px"
+        backgroundColor="linear-gradient(93.06deg, rgb(255, 0, 199) 2.66%, rgb(255, 159, 251) 98.99%)"
+      />
     </Container>
   );
 }
@@ -20,6 +25,7 @@ const Container = styled.div`
   flex-direction: column;
   margin: 24px auto;
   gap: 8px;
+  position: relative;
 `;
 
 const Title = styled.div`

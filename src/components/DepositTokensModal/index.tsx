@@ -28,7 +28,7 @@ export const DepositTokensModal = ({
           height: "440px",
           padding: "16px",
           width: "400px",
-          margin: "240px auto",
+          margin: "200px auto",
         },
       }}
     >

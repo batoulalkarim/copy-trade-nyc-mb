@@ -90,13 +90,16 @@ export const SwapBox = () => {
             text={"Swap"}
             margin={"0 auto"}
             width="368px"
+            borderRadius="25px"
+            backgroundColor="rgb(255, 0, 199) 2.66%"
           />
         )}
         {swapDetails.mode === "SELL" && (
           <Button
             action={() => "Ok"}
             text={"Swap"}
-            backgroundColor="pink"
+            borderRadius="25px"
+            backgroundColor="rgb(255, 159, 251) 98.99%"
             margin={"0 auto"}
             width="368px"
           />

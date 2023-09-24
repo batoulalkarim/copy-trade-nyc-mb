@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { Search as SearchIcon } from "styled-icons/ionicons-outline";
 import { usePrivy } from "@privy-io/react-auth";
 import { useLogout } from "@privy-io/react-auth";
+import { Button } from "../Button";
 
 export default function Top() {
   const [isConnected, setIsConnected] = useState(false);
@@ -31,14 +32,23 @@ export default function Top() {
   }, [user, router]);
   return (
     <Container>
-      <Logo>COPYTRADE</Logo>
+      <Logo>FAIRTRADE</Logo>
       {user && user.wallet && (
         <>
-          <SearchContainer>
+          {/* <SearchContainer>
             <StyledSearchIcon />
-          </SearchContainer>
+          </SearchContainer> */}
           <WalletContainer>
-            <button onClick={logout}>Logout</button>
+            <Button
+              action={logout}
+              text="Logout"
+              width="100px"
+              height="25px"
+              fontSize="14px"
+              borderRadius="25px"
+              backgroundColor="linear-gradient(93.06deg, rgb(255, 0, 199) 2.66%, rgb(255, 159, 251) 98.99%)"
+            />
+            {/* <button onClick={logout}>Logout</button> */}
             <AddressContainer>
               <Jazzicon
                 diameter={14}
@@ -65,9 +75,10 @@ const Container = styled.div`
 const WalletContainer = styled.div`
   cursor: pointer;
   display: flex;
-  flex-direction: column;
+  flex-direction: row-reverse;
   text-align: right;
-
+  align-items: center;
+  gap: 10px;
   &:hover {
     opacity: 0.8;
   }
@@ -76,6 +87,7 @@ const AddressContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 8px;
+  color: whitesmoke;
 `;
 const Address = styled.div`
   font-size: 14px;
@@ -104,4 +116,5 @@ const StyledSearchIcon = styled(SearchIcon)`
 
 const Logo = styled.div`
   font-size: 14px;
+  color: whitesmoke;
 `;

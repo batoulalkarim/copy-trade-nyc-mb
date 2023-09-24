@@ -68,23 +68,13 @@ export default function Dashboard() {
   };
   return (
     <Container>
-      <Title>Dashboard</Title>
-      <Subtitle>Launch a Token here</Subtitle>
-      {step === "PRIVY_NOTICE" ||
-        (showPrivyNotice && (
-          <PrivyNotice
-            handleNext={() => handleStep("DEPOSIT")}
-            handleBack={() => handleStep("CONNECT")}
-          />
-        ))}
-      {step === "DEPOSIT" ||
-        (showDepositNotice && (
-          <Deposit
-            handleNext={() => handleStep("ADD_TO_WATCH_LIST")}
-            handleBack={() => handleStep("PRIVY_NOTICE")}
-          />
-        ))}
-      <button onClick={() => router.push("/launch")}>Launch a Token</button>
+      {/* <Title>Dashboard</Title> */}
+      {(step === "PRIVY_NOTICE" || showPrivyNotice) && (
+        <PrivyNotice handleNext={() => handleStep("DEPOSIT")} />
+      )}
+      {(step === "DEPOSIT" || showDepositNotice) && (
+        <Deposit handleNext={() => router.push("/launch")} />
+      )}
     </Container>
   );
 }
@@ -99,10 +89,11 @@ const Container = styled.div`
 const Title = styled.div`
   font-size: 24px;
   line-height: 1.5;
+  color: whitesmoke;
 `;
 
 const Subtitle = styled.div`
   font-size: 16px;
   line-height: 1.5;
-  color: #666;
+  color: whitesmoke;
 `;

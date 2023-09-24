@@ -1,17 +1,11 @@
 import { styled } from "styled-components";
 import { Button } from "../Button";
 
-export function PrivyNotice({
-  handleNext,
-  handleBack,
-}: {
-  handleNext: () => void;
-  handleBack: () => void;
-}) {
+export function PrivyNotice({ handleNext }: { handleNext: () => void }) {
   return (
     <Container>
-      <Title>COPYTRADE Wallets</Title>
-      <Subtitle>{`On COPYTRADE, we spin up a wallet for you with Privy. All your funds and trades will be using this wallet.`}</Subtitle>
+      <Title>FAIR Wallets</Title>
+      <Subtitle>{`On FAIRTRADE, we spin up a wallet for you with Privy. All your funds and swaps will be using this wallet.`}</Subtitle>
 
       {/* <ActionContainer>
 				<ActionText>Deposit on mainnet</ActionText>
@@ -28,13 +22,12 @@ export function PrivyNotice({
 				<ActionButton>Copy address</ActionButton>
 			</ActionContainer> */}
       <ButtonContainer>
-        <Button action={handleNext} text="Proceed" />
         <Button
-          action={handleBack}
-          text={"Back"}
-          margin={"0 auto"}
-          color={"#666"}
-          backgroundColor={"#fff"}
+          action={handleNext}
+          text="Proceed"
+          borderRadius="25px"
+          backgroundColor="rgb(255, 0, 199) 2.66%"
+          width="250px"
         />
       </ButtonContainer>
     </Container>
@@ -54,10 +47,11 @@ const Container = styled.div`
 const Title = styled.div`
   font-size: 24px;
   line-height: 1.5;
+  color: whitesmoke;
 `;
 
 const Subtitle = styled.div`
-  color: #6a6a6a;
+  color: whitesmoke;
   font-size: 16px;
   line-height: 1.5;
 `;
@@ -77,14 +71,16 @@ const ActionContainer = styled.div`
 const ActionText = styled.div`
   font-size: 24px;
   line-height: 1.5;
+  color: whitesmoke;
 `;
 const ActionSubtext = styled.div`
   font-size: 16px;
   color: #6a6a6a;
   line-height: 1.5;
+  color: whitesmoke;
 `;
 const ActionButton = styled.div`
-  color: rgb(63, 94, 251);
+  color: rgb(255, 0, 199);
   cursor: pointer;
   font-weight: 600;
   text-align: right;
