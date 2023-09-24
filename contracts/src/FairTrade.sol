@@ -77,6 +77,60 @@ contract FairTrade is BaseHook, Ownable {
             });
     }
 
+    // Note: Add function later to lock ETH for Milady NFTX
+
+    function beforeInitialize(
+        address,
+        PoolKey calldata,
+        uint160,
+        bytes calldata
+    ) external override returns (bytes4) {
+        _mintTokensToFunders();
+        return BaseHook.beforeInitialize.selector;
+    }
+
+    function afterInitialize(
+        address,
+        PoolKey calldata,
+        uint160,
+        int24,
+        bytes calldata
+    ) external override returns (bytes4) {
+        _addLiquidityToPool();
+        return BaseHook.afterInitialize.selector;
+    }
+
+    function beforeModifyPosition(
+        address,
+        PoolKey calldata,
+        IPoolManager.ModifyPositionParams calldata,
+        bytes calldata
+    ) external view override returns (bytes4) {
+        if (msg.sender == owner()) {
+            require(
+                block.timestamp >= unlockTime,
+                "FairTrade: Owner cannot change LP yet"
+            );
+        }
+        // Figure out what to call here so that owner does not remove LP and dump
+        return BaseHook.beforeModifyPosition.selector;
+    }
+
+    function beforeSwap(
+        address,
+        PoolKey calldata,
+        IPoolManager.SwapParams calldata,
+        bytes calldata
+    ) external view override returns (bytes4) {
+        if (isFunder[msg.sender]) {
+            require(
+                block.timestamp >= unlockTime,
+                "FairTrade: Funders cannot trade yet"
+            );
+        }
+        return BaseHook.beforeSwap.selector;
+    }
+
     // Use this function to fund the token
     function depositEth() public payable {
         require(
@@ -198,60 +252,6 @@ contract FairTrade is BaseHook, Ownable {
         // Modify the positions with the pool key (i.e. add liquidity at different points)
         // Approve  tokens to be swapped through the swap router
         FairTradeERC20(tokenAddress).approve(address(swapRouter), 1000 ether);
-    }
-
-    // Note: Add function later to lock ETH for Milady NFTX
-
-    function beforeInitialize(
-        address,
-        PoolKey calldata,
-        uint160,
-        bytes calldata
-    ) external override returns (bytes4) {
-        _mintTokensToFunders();
-        return BaseHook.beforeInitialize.selector;
-    }
-
-    function afterInitialize(
-        address,
-        PoolKey calldata,
-        uint160,
-        int24,
-        bytes calldata
-    ) external override returns (bytes4) {
-        _addLiquidityToPool();
-        return BaseHook.afterInitialize.selector;
-    }
-
-    function beforeModifyPosition(
-        address,
-        PoolKey calldata,
-        IPoolManager.ModifyPositionParams calldata,
-        bytes calldata
-    ) external view override returns (bytes4) {
-        if (msg.sender == owner()) {
-            require(
-                block.timestamp >= unlockTime,
-                "FairTrade: Owner cannot change LP yet"
-            );
-        }
-        // Figure out what to call here so that owner does not remove LP and dump
-        return BaseHook.beforeModifyPosition.selector;
-    }
-
-    function beforeSwap(
-        address,
-        PoolKey calldata,
-        IPoolManager.SwapParams calldata,
-        bytes calldata
-    ) external view override returns (bytes4) {
-        if (isFunder[msg.sender]) {
-            require(
-                block.timestamp >= unlockTime,
-                "FairTrade: Funders cannot trade yet"
-            );
-        }
-        return BaseHook.beforeSwap.selector;
     }
 
     function handleSwap(

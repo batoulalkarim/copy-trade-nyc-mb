@@ -49,4 +49,4 @@ This project is licensed under the AGPL-3.0-only
 
 ### Disclaimer
 
-This is experimental software and is provided on an "as is" and "as available" basis. We do not give and warranties and will not be liable for any loss incurred through use of this codebase.
+This is experimental software and is provided on an "as is" and "as available" basis. We do not give any warranties and will not be liable for any loss incurred through use of this codebase.
