@@ -1,20 +1,19 @@
-import { useRouter } from 'next/router'
-import styled from 'styled-components'
+import { useRouter } from "next/router";
+import styled from "styled-components";
 
 export const Navigation = () => {
-	const router = useRouter()
+  const router = useRouter();
 
-	return (
-		<Container>
-			<Logo src='/images/logo.png' />
-		</Container>
-	)
-}
+  return (
+    <Container>
+      <Logo src="/images/logo.png" />
+    </Container>
+  );
+};
 
 const Container = styled.div`
-	background: rgb(63,94,251);
-	background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(70,147,252,1) 100%);
-	border-radius: 50%;
+background: linear-gradient(93.06deg, rgb(255, 0, 199) 2.66%, rgb(255, 159, 251) 98.99%);
+border-radius: 50%;
 	cursor: pointer;
 	bottom: 48px;
 	right: 24px;
@@ -53,17 +52,17 @@ const Container = styled.div`
 		to {
 			transform: rotate(0deg);
 		}
-`
+`;
 
 const Item = styled.div`
-	cursor: pointer;
-	transition: background-color 0.2s ease-in-out;
-	padding: 8px 16px;
-	&:hover {
-		background-color: rgba(0, 0, 0, 0.1);
-	}
-`
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  padding: 8px 16px;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+`;
 
 const Logo = styled.img`
-	width: 32px;
-`
+  width: 32px;
+`;
