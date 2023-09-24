@@ -7,3 +7,9 @@
 [submodule "contracts/lib/periphery-next"]
 	path = contracts/lib/periphery-next
 	url = https://github.com/Uniswap/periphery-next
+[submodule "contracts/lib/forge-gas-snapshot"]
+	path = contracts/lib/forge-gas-snapshot
+	url = https://github.com/marktoda/forge-gas-snapshot
+[submodule "contracts/lib/solady"]
+	path = contracts/lib/solady
+	url = https://github.com/vectorized/solady
