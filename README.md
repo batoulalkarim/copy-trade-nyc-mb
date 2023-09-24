@@ -28,7 +28,8 @@ To use this hook:
 This set of contracts also has a Next JS app ready. Features are listed below. This app is targeting users that are new to crypto so we've integrated with Privy and created a simple Next JS app.
 
 1. Login with Twitter via Privy
-2.
+2. Simple flow to take in token data before fundraising kicks off
+3. Once fundraising is kicked off, user has a simple swap box available for other users to buy / sell the new token
 
 ### Todo
 
