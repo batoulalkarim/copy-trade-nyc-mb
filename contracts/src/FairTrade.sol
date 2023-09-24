@@ -86,7 +86,7 @@ contract FairTrade is BaseHook, Ownable {
             "FairTrade: Token already set"
         );
         require(msg.value > 0, "FairTrade: No ETH sent");
-        require(msg.value == 0.1 ether, "FairTrade: Must send 0.1 ETH");
+        require(msg.value == 0.25 ether, "FairTrade: Must send 0.25 ETH");
         require(!isFunder[msg.sender], "FairTrade: Already funded");
         isFunder[msg.sender] = true;
         fundingAddresses.push(msg.sender);
@@ -100,7 +100,7 @@ contract FairTrade is BaseHook, Ownable {
             "FairTrade: Token already set"
         );
         isFunder[msg.sender] = false;
-        payable(msg.sender).transfer(0.1 ether);
+        payable(msg.sender).transfer(.25 ether);
     }
 
     function transferOwnership(
@@ -176,24 +176,29 @@ contract FairTrade is BaseHook, Ownable {
         );
 
         uint256 ethBalance = address(this).balance;
-        modifyPositionRouter.modifyPosition{value: ethBalance / 10}(
+        modifyPositionRouter.modifyPosition{value: ethBalance / 2}(
             poolKey,
-            IPoolManager.ModifyPositionParams(-60, 60, 10 ether)
+            IPoolManager.ModifyPositionParams(
+                TickMath.minUsableTick(60),
+                TickMath.maxUsableTick(60),
+                int256(ethBalance / 2)
+            )
         );
 
-        // modifyPositionRouter.modifyPosition{value: ethBalance / 10}(
-        //     poolKey,
-        //     IPoolManager.ModifyPositionParams(-120, 120, 10 ether)
-        // );
+        modifyPositionRouter.modifyPosition{value: ethBalance / 10}(
+            poolKey,
+            IPoolManager.ModifyPositionParams(-60, 60, int256(ethBalance / 10))
+        );
 
-        // modifyPositionRouter.modifyPosition{value: ethBalance / 2}(
-        //     poolKey,
-        //     IPoolManager.ModifyPositionParams(
-        //         TickMath.minUsableTick(60),
-        //         TickMath.maxUsableTick(60),
-        //         50 ether
-        //     )
-        // );
+        modifyPositionRouter.modifyPosition{value: ethBalance / 10}(
+            poolKey,
+            IPoolManager.ModifyPositionParams(
+                -120,
+                120,
+                int256(ethBalance / 10)
+            )
+        );
+
         // Approve tokens to be used by the position router
         // Modify the positions with the pool key (i.e. add liquidity at different points)
         // Approve  tokens to be swapped through the swap router
@@ -255,4 +260,6 @@ contract FairTrade is BaseHook, Ownable {
         }
         return BaseHook.beforeSwap.selector;
     }
+
+    receive() external payable {}
 }

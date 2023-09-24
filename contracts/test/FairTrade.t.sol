@@ -73,13 +73,13 @@ contract FairTradeTest is SimpleHookTest, Deployers, GasSnapshot {
     }
 
     function testDepositEth() public {
-        hook.depositEth{value: 0.1 ether}();
+        hook.depositEth{value: 0.25 ether}();
         assertTrue(hook.isFunder(address(this)), "Not a funder");
     }
 
     function testFailDepositOnlyOnce() public {
-        hook.depositEth{value: 0.1 ether}();
-        hook.depositEth{value: 0.1 ether}();
+        hook.depositEth{value: 0.25 ether}();
+        hook.depositEth{value: 0.25 ether}();
     }
 
     function testFailDepositWrongAmount() public {
@@ -91,7 +91,7 @@ contract FairTradeTest is SimpleHookTest, Deployers, GasSnapshot {
     }
 
     function testQuit() public {
-        hook.depositEth{value: 0.1 ether}();
+        hook.depositEth{value: 0.25 ether}();
         hook.quit();
         assertFalse(hook.isFunder(address(this)), "Still a funder");
     }
@@ -101,7 +101,27 @@ contract FairTradeTest is SimpleHookTest, Deployers, GasSnapshot {
     }
 
     function testLaunchToken() public {
-        hook.depositEth{value: 0.1 ether}();
+        (address friend1, address friend2, address friend3, address friend4) = (
+            address(0x1),
+            address(0x2),
+            address(0x3),
+            address(0x4)
+        );
+        vm.deal(friend1, 10 ether);
+        vm.deal(friend2, 10 ether);
+        vm.deal(friend3, 10 ether);
+        vm.deal(friend4, 10 ether);
+
+        vm.prank(friend1);
+        hook.depositEth{value: 0.25 ether}();
+        vm.prank(friend2);
+        hook.depositEth{value: 0.25 ether}();
+        vm.prank(friend3);
+        hook.depositEth{value: 0.25 ether}();
+        vm.prank(friend4);
+        hook.depositEth{value: 0.25 ether}();
+
+        // hook.depositEth{value: 0.25 ether}();
         hook.launch();
     }
 
