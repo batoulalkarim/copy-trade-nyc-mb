@@ -21,6 +21,7 @@
 		"qrcode.react": "^3.1.0",
 		"react": "18.2.0",
 		"react-confetti": "^6.1.0",
+		"react-confetti-explosion": "^2.1.2",
 		"react-dom": "18.2.0",
 		"react-jazzicon": "^1.0.4",
 		"react-modal": "^3.16.1",

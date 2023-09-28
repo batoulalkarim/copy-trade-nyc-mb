@@ -1,68 +1,75 @@
-import { useRouter } from "next/router";
-import styled from "styled-components";
+import { styled } from 'styled-components'
 
-export const Navigation = () => {
-  const router = useRouter();
+// Components
+import { NetworkSelector } from './NetworkSelector'
+import { Wallet } from './Wallet'
+import { useRouter } from 'next/router'
 
-  return (
-    <Container>
-      <Logo src="/images/logo.png" />
-    </Container>
-  );
-};
+export function Navigation({ toggleSidebar }: { toggleSidebar: () => void }) {
+	const router = useRouter()
+
+	return (
+		<Container>
+			<Left>
+				<Logo src='images/logo.png' />
+				<MenuItem
+					onClick={() => router.push('/create')}
+					selected={router.pathname === '/create'}
+				>
+					Create
+				</MenuItem>
+				<MenuItem>Trade</MenuItem>
+				<MenuItem>…</MenuItem>
+			</Left>
+			<Right>
+				<NetworkSelector />
+				<Wallet toggleSidebar={toggleSidebar} />
+			</Right>
+		</Container>
+	)
+}
 
 const Container = styled.div`
-background: linear-gradient(93.06deg, rgb(255, 0, 199) 2.66%, rgb(255, 159, 251) 98.99%);
-border-radius: 50%;
-	cursor: pointer;
-	bottom: 48px;
-	right: 24px;
 	display: flex;
-	height: 64px;
-	width: 64px;
-	color: #fff;
-	display: flex;
+	justify-content: space-between;
+	padding: 24px 24px 0px 24px;
 	align-items: center;
-	font-size: 32px;
-	justify-content: center;
-	position: absolute;	
-	transition-name: out;  /* animation to rotate on hover out*/
-  transition-duration: 1s;  /* duration of animation */
+	height: 48px;
+	width: 100%;
+`
+
+const Left = styled.div`
+	display: flex;
+	flex-direction: row;
+	color: #fff;
+	align-items: center;
+
+	gap: 8px;
+	> div {
+		margin-left: 36px;
+	}
+`
+const Right = styled.div`
+	display: flex;
+	flex-direction: row;
+	color: #fff;
+	align-items: center;
+	gap: 32px;
+`
+
+const MenuItem = styled.div<{ selected?: boolean }>`
+	color: ${(props) => (props.selected ? '#ffffff' : '#6a6a6a')};
+	cursor: pointer;
+	display: flex;
+	font-size: 18px;
+	line-height: 1.5;
+	width: 48px;
 	&:hover {
-		opacity: 0.8;
-		transition-name: in;  /* animation to rotate on hover */
-		transition-duration: 1s;
-
-		transform: rotate(45deg);
-		transition-duration: 1s;
+		color: #fff;
 	}
-
-	@keyframes in {
-		from {
-			transform: rotate(0deg);
-		}
-		to {
-			transform: rotate(45deg);
-		}
-	}
-	@keyframes out {
-		from {
-			transform: rotate(45deg);
-		}
-		to {
-			transform: rotate(0deg);
-		}
-`;
-
-const Item = styled.div`
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-  padding: 8px 16px;
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-  }
-`;
+`
 
 const Logo = styled.img`
-  width: 32px;
-`;
+	cursor: pointer;
+	width: 24px;
+`

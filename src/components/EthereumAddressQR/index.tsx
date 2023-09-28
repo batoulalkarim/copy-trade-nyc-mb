@@ -1,20 +1,12 @@
-import React from "react";
-import QRCode from "qrcode.react";
-import { styled } from "styled-components";
+import React from 'react'
+import QRCode from 'qrcode.react'
 
 export function EthereumAddressQR({
-  walletAddress,
+	walletAddress,
 }: {
-  walletAddress: string;
+	walletAddress: string
 }) {
-  if (!walletAddress) return <p>Please Login</p>;
-
-  return (
-    <div>
-      <p>ETH Address:</p>
-      <QRCode value={walletAddress} size={180} />
-    </div>
-  );
+	return <QRCode value={walletAddress} size={192} />
 }
 
-export default EthereumAddressQR;
+export default EthereumAddressQR

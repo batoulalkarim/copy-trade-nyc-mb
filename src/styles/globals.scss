@@ -1,130 +1,147 @@
 /** Global Styling **/
 
+// Fonts
+
+@font-face {
+	font-family: 'FTCalhernTrial-Regular';
+	src: url('/fonts/FTCalhernTrial-Regular.otf');
+	font-style: normal;
+	font-weight: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'FTCalhernTrial-Book';
+	src: url('/fonts/FTCalhernTrial-Book.otf');
+	font-style: normal;
+	font-weight: normal;
+	font-display: swap;
+}
+
 p {
-  margin: 0;
-  color: whitesmoke;
+	margin: 0;
+	color: whitesmoke;
 }
 
 ol,
 ul {
-  list-style: none;
+	list-style: none;
 }
 
 label {
-  color: white;
+	color: white;
 }
 
 ol,
 ul,
 li {
-  margin: 0;
-  padding: 0;
-  border: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
 }
 
 body {
-  padding: 0;
-  margin: 0;
-  font-size: 16px;
+	padding: 0;
+	margin: 0;
+	font-size: 16px;
 
-  overflow-x: hidden;
-  overscroll-behavior: contain;
-  direction: ltr;
-  background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)),
-    url("/images/glimmer_bg.svg");
-  background-size: cover;
-  background-position: center;
-  //-webkit-font-smoothing: antialiased;
+	overflow-x: hidden;
+	overscroll-behavior: contain;
+	direction: ltr;
+	background: black;
+	background-size: cover;
+	background-position: center;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+	color: inherit;
+	text-decoration: none;
 }
 
-input[type="file"] {
-  opacity: 0;
+input[type='file'] {
+	opacity: 0;
 }
 
 * {
-  font-family: "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-    "Droid Sans", "Helvetica Neue", sans-serif;
-  box-sizing: border-box;
-  outline: none;
+	font-family: 'FTCalhernTrial-Book', 'FTCalhernTrial-Regular', 'Oxygen',
+		'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+		sans-serif;
+	box-sizing: border-box;
+	outline: none;
 }
 
 a:hover {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 .ReactModal__Overlay {
-  z-index: 1000;
-  opacity: 0;
-  transition: opacity 300ms cubic-bezier(0.23, 1, 0.32, 1);
+	z-index: 1000;
+	opacity: 0;
+	transition: opacity 300ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .ReactModal__Overlay--after-open {
-  opacity: 1;
+	opacity: 1;
 }
 
 .ReactModal__Overlay--before-close {
-  opacity: 0;
+	opacity: 0;
 }
 
 .modal {
-  width: 100%;
+	width: 100%;
 
-  .close-bar {
-    align-items: center;
-    display: flex;
-    width: "100%";
-  }
-  .close-icon {
-    color: #b8b8b8;
-    cursor: pointer;
-    float: right;
-    font-size: 24px;
-    margin-left: auto;
+	.close-bar {
+		align-items: center;
+		display: flex;
+		width: '100%';
+	}
+	.close-icon {
+		color: #b8b8b8;
+		cursor: pointer;
+		float: right;
+		font-size: 24px;
+		margin-left: auto;
 
-    &:hover {
-      color: #fff;
-    }
-  }
+		&:hover {
+			color: #fff;
+		}
+	}
 
-  .title {
-    font-size: 16px;
-    font-weight: bold;
-  }
+	.title {
+		font-size: 16px;
+		font-weight: bold;
+	}
 
-  .center-text {
-    color: #777;
-    font-size: 14px;
-    text-align: center;
-  }
+	.center-text {
+		color: #777;
+		font-size: 14px;
+		text-align: center;
+	}
 }
 
 @media only screen and (max-width: 660px) {
-  .modal {
-    width: 100%;
-  }
+	.modal {
+		width: 100%;
+	}
 }
 
 // Glow MetaMask
 .glow-metamask {
-  align-items: center;
-  background: #fff;
-  border: none;
-  color: #000;
-  cursor: pointer;
-  display: flex;
-  font-weight: 700;
-  -webkit-font-smoothing: antialiased;
-  height: 48px;
-  justify-content: center;
-  outline: none;
-  padding: 0px 24px;
-  position: relative;
-  z-index: 0;
-  border-radius: 40px;
-  text-transform: uppercase;
+	align-items: center;
+	background: #fff;
+	border: none;
+	color: #000;
+	cursor: pointer;
+	display: flex;
+	font-weight: 700;
+	-webkit-font-smoothing: antialiased;
+	height: 48px;
+	justify-content: center;
+	outline: none;
+	padding: 0px 24px;
+	position: relative;
+	z-index: 0;
+	border-radius: 40px;
+	text-transform: uppercase;
 }
