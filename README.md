@@ -31,6 +31,15 @@ To use this hook:
 -   Once you raise your target amount, call `launch`. This function will kick off a token deployment, pool initialization, and token distribution with Uniswap V4 hooks (`beforeInitialize` and `afterInitialize`)
 -   After `launch`, LP and swap functions are available. Checks for who are trading the tokens are done in the `beforeSwap` and `beforeModifyPosition` Uniswap V4 hooks
 
+#### Deployment
+
+````
+forge script script/FairTrade.s.sol \
+    --rpc-url $CONDUIT_TESTNET_URL \
+    --private-key $PK \
+    --broadcast
+```
+
 #### Bonus
 
 This set of contracts also has a Next JS app ready. Features are listed below. This app is targeting users that are new to crypto so we've integrated with Privy and created a simple Next JS app.
@@ -54,3 +63,5 @@ This project is licensed under the AGPL-3.0-only
 ### Disclaimer
 
 This is experimental software and is provided on an "as is" and "as available" basis. We do not give any warranties and will not be liable for any loss incurred through use of this codebase.
+
+````

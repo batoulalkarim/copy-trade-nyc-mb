@@ -49,6 +49,7 @@ contract FairTradeTest is SimpleHookTest, Deployers, GasSnapshot {
             "TEST",
             18
         );
+
         require(
             address(hook) == hookAddress,
             "FairTradeTest: Hook address mismatch"
